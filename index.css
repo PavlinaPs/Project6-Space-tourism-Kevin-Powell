@@ -7,13 +7,13 @@
     --color-light: 231 77% 90%;
     --color-white: 0 0% 100%;
 
-    /* font sizes */
-    --fs-900: 9.375rem;
-    --fs-800: 6.25rem;
-    --fs-700: 3.5rem;
-    --fs-600: 2rem;
-    --fs-500: 1.75rem;    /*divide by 16*/
-    --fs-400: 1.125rem;   /*base size = body text size*/
+    /* font sizes */     /*mobile*/
+    --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
+    --fs-800: 3.5rem;
+    --fs-700: 1.5rem;
+    --fs-600: 1rem;
+    --fs-500: 1.75rem; 
+    --fs-400: 0.9375rem; 
     --fs-300: 1rem;
     --fs-200: 0.875rem;
 
@@ -23,6 +23,26 @@
     --ff-sans-normal: "Barlow", sans-serif;
 }
 
+@media (min-width: 35em) {
+    :root {
+        /* font sizes */   /*tablet*/
+    --fs-800: 5rem;
+    --fs-700: 2.5rem;
+    --fs-600: 1.5rem;
+    --fs-400: 1rem;
+    }
+}
+
+@media (min-width: 45em) {
+    :root {
+        /* font sizes */   /*big screen*/
+    --fs-800: 6.25rem;
+    --fs-700: 3.5rem;
+    --fs-600: 2rem;
+    /* --fs-500: 1.75rem;    divide by 16 */
+    --fs-400: 1.125rem;   /*base size = body text size*/
+    }
+}
 
 /* ************* */
 /* General reset */
@@ -46,13 +66,29 @@ p,
 picture,
 figure {
     margin: 0;
-    padding: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    font-weight: 400;
 }
 
 /* body set-up */
 body {
+    font-family: var(--ff-sans-normal);
+    font-size: var(--fs-400);
+    color: hsl(var(--color-white));
+    background-color: hsl( var(--color-dark));
     line-height: 1.5;  
     min-height: 100vh;
+
+    display: grid;
+    grid-template-rows: min-content 1fr;   /*spacing above and under, stretch all the way down*/
 }
 
 /* image set-up */
@@ -97,11 +133,37 @@ select {
     gap: var(--gap, 1rem);
 }
 
+.flow > *:where(:not(:first-child)) {     /* same as *:not(:first-child) but this has same specificity as class; or *+* lobotomized owl selector */
+    margin-top: var(--flow-space, 1rem);
+    /* outline: 1px solid red; */
+}
+
 .container {
-    padding-inline: 2em; /* same as padding 0, 2em i.e.no padding top, bottom, 2em left & right; a logical property */
-    margin-inline: auto; /* to hold the content in the middle of the page, left, right auto */
+    padding: 0 2em; /* same as padding-inline: 2em; i.e.no padding top, bottom, 2em left & right; a logical property */
+    margin: auto; /* margin-inline: auto; to hold the content in the middle of the page, left, right auto */
     max-width: 80rem;
 }
+
+.grid-container {   /*to hold content in the middle while responsive*/
+    display: grid;
+}
+
+@media (min-width: 45em) {
+    .grid-container {   /*to hold content in the middle while responsive*/
+        column-gap: var(--container-gap, 2rem);
+        grid-template-columns: minmax(2rem, 1fr) minmax(0, 40rem) minmax(0, 40rem) minmax(2rem, 1fr);
+    }
+
+    .grid-container > *:first-child {
+        grid-column: 2;
+    }
+    
+    .grid-container > *:last-child {
+        grid-column: 3;
+    }
+}
+
+
 
 /* for assistive technology - screen readers only, doesn't display */
 .sr-only {
@@ -151,3 +213,126 @@ select {
 .fs-600 {
     line-height: 1.1;
 }
+
+
+/* *************** */
+/* Components */
+/* *************** */ 
+.large-button {
+    position: relative;
+    padding: 0 2em;
+    display: inline-grid;   /* usually gives inline-block; a link is an inline element*/
+    place-items: center; /* align-items + justify-self*/
+    z-index: 1;
+    text-decoration: none;
+    aspect-ratio: 1;
+    border-radius: 100%;
+}
+
+.large-button::after {
+    content: '';
+    position: absolute;
+    background: hsl( var(--color-white) / 0.15);
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 500ms linear, transform 750ms ease-in-out;
+}
+
+.large-button:hover::after,
+.large-button:focus::after {
+    transform: scale(1.5);
+    opacity: 1;
+}
+
+.primary-navigation {
+    --gap: 8rem;
+    --underline-gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+}
+
+.primary-navigation a {
+    text-decoration: none;
+}
+
+.primary-navigation a > span {
+    margin-right: 0.5em; 
+    font-weight: 700;
+}
+
+.underline-indicators > * {       /*every direct child of*/
+    cursor: pointer;
+    padding: var(--underline-gap, .1rem) 0;
+    border: 0;
+    border-bottom: 0.2rem solid hsl(var(--color-white) / 0);
+    background-color: transparent;
+    
+}
+
+.underline-indicators > *:hover,
+.underline-indicators > *:focus {
+    border-color: hsl(var(--color-white) / 0.5);
+}
+
+.underline-indicators > .active,
+.underline-indicators > [aria-selected="true"] {  /*tabs don't reload page, this is for assistive technologies to let them know */
+    color: hsl( var(--clr-white) / 1);
+    border-color: hsl(var(--color-white) / 1);  /*doesn't change on hover, .active overwrites it*/
+}
+
+.tab-list{
+ --gap: 2rem;
+}
+
+.dot-indicators > * {
+    cursor: pointer;
+    border: 0;
+    border-radius: 50%;
+    padding: 0.5em;
+    background-color: hsl( var(--color-white) / 0.25);
+    
+}
+
+.dot-indicators > *:hover,
+.dot-indicators > *:focus {
+    background-color: hsl(var(--color-white) / 0.5);
+}
+
+.dot-indicators > [aria-selected="true"] {  /*tabs don't reload page, this is for assistive technologies to let them know */
+    background-color: hsl( var(--color-white) / 1);
+} 
+
+.number-indicators {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.number-indicators > * {
+    cursor: pointer;
+    border: 1px solid hsl(var(--color-white) / 0.25);
+    border-radius: 50%;
+    background-color: transparent;
+    color: hsl( var(--color-white));
+    width: 82px;
+    height: 82px;
+    padding: auto;
+    position: relative;
+    display: block
+}
+
+.number-indicators > *:hover,
+.number-indicators > *:focus {
+    border-color: hsl( var(--color-white) / 0.5);
+}
+
+.number-indicators > [aria-selected="true"] {  /*tabs don't reload page, this is for assistive technologies to let them know */
+    background-color: hsl( var(--color-white) / 1);
+    color: hsl( var(--color-dark));
+} 
