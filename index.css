@@ -198,6 +198,21 @@ select {
     border: 0;
 }
 
+.skip-to-content {
+    position: absolute;
+    z-index: 1000;
+    background: hsl(var(--color-white));
+    color: hsl( var(--color-dark));
+    padding: 0.5em 1em;
+    margin-inline: auto;
+    transform: translateY(-101%);
+    transition: transform 250ms ease-in;
+}
+
+.skip-to-content:focus {
+    transform: translateY(0);
+}
+
 /* colors */
 .background-dark { background-color: hsl( var(--color-dark));}
 .background-light {background-color: hsl( var(--color-light));}
@@ -268,13 +283,36 @@ select {
     opacity: 1;
 }
 
+/* primary header */
+
+.logo {
+    margin: 1.5rem clamp(1.5rem, 5vw, 3.5rem);
+    
+}
+
+.primary-header {
+    justify-content: space-between;
+    align-items: center;
+}
+
 .primary-navigation {
+    --gap: clamp(1rem, 5vw, 3.5rem);;
     --underline-gap: 2rem;
     list-style: none;
     padding: 0;
     margin: 0;
     background: hsl( var(--color-dark) / 0.95);
 }
+
+.primary-navigation a {
+    text-decoration: none;
+}
+
+.primary-navigation a > span {
+    margin-right: 0.5em; 
+    font-weight: 700;
+}
+
 
 .mobile-nav-toggle {
     display: none;
@@ -293,6 +331,7 @@ select {
     border: 0;
     border-bottom: 0.2rem solid hsl(var(--color-white) / 0);
     background-color: transparent;
+
 }
 
 .underline-indicators > *:hover,
@@ -322,7 +361,8 @@ select {
 
     .primary-navigation[data-visible="true"] {
         transform: translateX(0);
-        padding-right: 0;   
+        padding-right: 0;
+
     }
 
     .mobile-nav-toggle {
@@ -340,6 +380,11 @@ select {
         aspect-ratio: 1;
     }
 
+    .underline-indicators > * {       /*every direct child of*/
+        border: 0;
+        border-right: 0.2rem solid hsl(var(--color-white) / 0);
+    }
+
     .mobile-nav-toggle[aria-expanded="true"] {
         background-image: url(./assets/shared/icon-close.svg);
     }
@@ -348,20 +393,44 @@ select {
         outline: 5px solid white;
         outline-offset: 5px;
     }
+}
 
-    .underline-indicators > * {       /*every direct child of*/
-        border: 0;
-        border-right: 0.2rem solid hsl(var(--color-white) / 0);
+@media (min-width: 35em) {
+    .primary-navigation {
+        padding-inline: clamp(3rem, 10vw, 7rem);
     }
 }
 
-.primary-navigation a {
-    text-decoration: none;
+
+@media (min-width: 35em) and (max-width: 44.999em) {
+    .primary-navigation a > span {
+        display: none;
+    }
 }
 
-.primary-navigation a > span {
-    margin-right: 0.5em; 
-    font-weight: 700;
+@media (min-width: 45em) {
+    .primary-header::after {
+        content: '';
+        display: block;
+        position: relative;
+        margin-right: -2.5rem;
+        height: 1px;
+        width: 100%;
+        background: hsl(var(--color-white) / 0.25);
+        order: 1;
+        
+    }
+
+    nav {
+        order: 2;
+    }
+    
+    .primary-navigation {
+        margin-block: 2rem;
+    }
+
+   
+
 }
 
 .tab-list{
