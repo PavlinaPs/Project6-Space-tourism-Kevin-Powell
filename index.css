@@ -290,11 +290,9 @@ select {
 .underline-indicators > * {       /*every direct child of*/
     cursor: pointer;
     padding: var(--underline-gap, .1rem) 0;
-    /* border: 0; */
-    border-right: 0.2rem solid hsl(var(--color-white) / 0);
-    right: -1rem;
+    border: 0;
+    border-bottom: 0.2rem solid hsl(var(--color-white) / 0);
     background-color: transparent;
-    
 }
 
 .underline-indicators > *:hover,
@@ -308,8 +306,6 @@ select {
     border-color: hsl(var(--color-white) / 1);  /*doesn't change on hover, .active overwrites it*/
 }
 
-
-
 @media (max-width: 35rem) {
     .primary-navigation {
         --underline-gap: 0.5rem;
@@ -321,14 +317,12 @@ select {
         flex-direction: column;
         position: fixed;
         transform: translateX(100%);
-        transition: transform 500ms ease-in-out;
-        
+        transition: transform 500ms ease-in-out;          
     }
 
     .primary-navigation[data-visible="true"] {
         transform: translateX(0);
-        padding-right: 0;
-        
+        padding-right: 0;   
     }
 
     .mobile-nav-toggle {
@@ -355,12 +349,11 @@ select {
         outline-offset: 5px;
     }
 
-    /* .primary-navigation.underline-indicators > .active {
+    .underline-indicators > * {       /*every direct child of*/
         border: 0;
-        
-    } */
+        border-right: 0.2rem solid hsl(var(--color-white) / 0);
+    }
 }
-
 
 .primary-navigation a {
     text-decoration: none;
@@ -369,26 +362,6 @@ select {
 .primary-navigation a > span {
     margin-right: 0.5em; 
     font-weight: 700;
-}
-
-.underline-indicators > * {       /*every direct child of*/
-    cursor: pointer;
-    padding: var(--underline-gap, .1rem) 0;
-    border: 0;
-    border-bottom: 0.2rem solid hsl(var(--color-white) / 0);
-    background-color: transparent;
-    
-}
-
-.underline-indicators > *:hover,
-.underline-indicators > *:focus {
-    border-color: hsl(var(--color-white) / 0.5);
-}
-
-.underline-indicators > .active,
-.underline-indicators > [aria-selected="true"] {  /*tabs don't reload page, this is for assistive technologies to let them know */
-    color: hsl( var(--clr-white) / 1);
-    border-color: hsl(var(--color-white) / 1);  /*doesn't change on hover, .active overwrites it*/
 }
 
 .tab-list{
@@ -401,7 +374,6 @@ select {
     border-radius: 50%;
     padding: 0.5em;
     background-color: hsl( var(--color-white) / 0.25);
-    
 }
 
 .dot-indicators > *:hover,
