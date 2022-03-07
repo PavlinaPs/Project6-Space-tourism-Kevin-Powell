@@ -15,6 +15,7 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="index.css">
   <title>Frontend Mentor | Space tourism website</title>
+  <script src="index.js" defer></script>
 </head>
 <body class="home">
 
@@ -22,8 +23,9 @@
     <div>
       <img src="./assets/shared/logo.svg" alt="space tourism logo" class="logo">
     </div>
+    <button class="mobile-nav-toggle" aria-controls="primary-navigation"><span class="sr-only" aria-expanded="false">Menu</span></button>
     <nav>
-      <ul class="primary-navigation flex underline-indicators">
+      <ul id="primary-navigation" data-visible="false" class="primary-navigation flex underline-indicators">
         <li class="active"><a class="ff-sans-cond text-white letter-spacing-2" href="index.html"><span>00</span>Home</a></li>
         <li><a class="ff-sans-cond text-white letter-spacing-2" href="destination.html"><span>01</span>Destination</a></li>
         <li><a class="ff-sans-cond text-white letter-spacing-2" href="crew.html"><span>02</span>Crew</a></li>
@@ -32,16 +34,18 @@
     </nav>  
   </header>
 
-  <div class="grid-container">
+  <div class="grid-container grid-container--home">
     <div>
-      <h1 class="text-light fs-500 ff-sans-cond uppercase letter-spacing-1">So, you want to travel to <span class="fs-900 ff-serif text-white">Space</span></h1>
+      <h1 class="text-light fs-500 ff-sans-cond uppercase letter-spacing-1">So, you want to travel to <span class="fs-900 ff-serif text-white d-block">Space</span></h1>
       <p>Let’s face it; if you want to go to space, you might as well genuinely go to 
       outer space and not hover kind of on the edge of it. Well sit back, and relax 
       because we’ll give you a truly out of this world experience! </p>  
     </div>
     <div>
-      <a href="#" class="large-button ff-serif fs-600 background-white uppercase text-dark">Explore</a>
+      <a href="#" class="large-button ff-serif background-white uppercase text-dark">Explore</a>
     </div>
   </div>
+
+  
 </body>
 </html>

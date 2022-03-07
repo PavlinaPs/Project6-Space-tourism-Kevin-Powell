@@ -89,6 +89,9 @@ body {
 
     display: grid;
     grid-template-rows: min-content 1fr;   /*spacing above and under, stretch all the way down*/
+
+    overflow-x: hidden;   /*animation otherwise overflows*/
+    overflow-y: hidden;
 }
 
 /* image set-up */
@@ -133,6 +136,10 @@ select {
     gap: var(--gap, 1rem);
 }
 
+.d-block {                 /*for SPACE to be on the line alone, never on more that one line*/
+    display: block;
+}
+
 .flow > *:where(:not(:first-child)) {     /* same as *:not(:first-child) but this has same specificity as class; or *+* lobotomized owl selector */
     margin-top: var(--flow-space, 1rem);
     /* outline: 1px solid red; */
@@ -146,10 +153,18 @@ select {
 
 .grid-container {   /*to hold content in the middle while responsive*/
     display: grid;
+    text-align: center;
+    place-items: center;   /*place-content doesn't make a splace between divs, place-items works better*/
+    padding-inline: 1rem;
+}
+
+.grid-container * {
+    max-width: 50ch;    /*zero characters*/
 }
 
 @media (min-width: 45em) {
     .grid-container {   /*to hold content in the middle while responsive*/
+        text-align: left;
         column-gap: var(--container-gap, 2rem);
         grid-template-columns: minmax(2rem, 1fr) minmax(0, 40rem) minmax(0, 40rem) minmax(2rem, 1fr);
     }
@@ -160,6 +175,11 @@ select {
     
     .grid-container > *:last-child {
         grid-column: 3;
+    }
+
+    .grid-container--home {
+        padding-bottom: max(6rem, 20vh);    /*chooses bigger, 20vh is for really big screens - will not be glued to the bottom of the screen*/
+        align-items: end;
     }
 }
 
@@ -220,6 +240,7 @@ select {
 /* *************** */ 
 .large-button {
     position: relative;
+    font-size: 2rem;        /* the only font size that doesn't change throughout the layout*/
     padding: 0 2em;
     display: inline-grid;   /* usually gives inline-block; a link is an inline element*/
     place-items: center; /* align-items + justify-self*/
@@ -248,13 +269,98 @@ select {
 }
 
 .primary-navigation {
-    --gap: 8rem;
     --underline-gap: 2rem;
     list-style: none;
     padding: 0;
     margin: 0;
-
+    background: hsl( var(--color-dark) / 0.95);
 }
+
+.mobile-nav-toggle {
+    display: none;
+}
+
+@supports (backdrop-filter: blur(1.5rem)) {    /*property and the value*/
+    .primary-navigation {
+        background: hsl( var(--color-white) / 0.05);
+        backdrop-filter: blur(1.5rem);
+    }
+}
+
+.underline-indicators > * {       /*every direct child of*/
+    cursor: pointer;
+    padding: var(--underline-gap, .1rem) 0;
+    /* border: 0; */
+    border-right: 0.2rem solid hsl(var(--color-white) / 0);
+    right: -1rem;
+    background-color: transparent;
+    
+}
+
+.underline-indicators > *:hover,
+.underline-indicators > *:focus {
+    border-color: hsl(var(--color-white) / 0.5);
+}
+
+.underline-indicators > .active,
+.underline-indicators > [aria-selected="true"] {  /*tabs don't reload page, this is for assistive technologies to let them know */
+    color: hsl( var(--clr-white) / 1);
+    border-color: hsl(var(--color-white) / 1);  /*doesn't change on hover, .active overwrites it*/
+}
+
+
+
+@media (max-width: 35rem) {
+    .primary-navigation {
+        --underline-gap: 0.5rem;
+        list-style: none;
+        inset: 0 0 0 30%;   /*shorthand for top right bottom left*/
+        z-index: 1000;
+        padding: min(20rem, 15vh) 2rem;
+        margin: 0;
+        flex-direction: column;
+        position: fixed;
+        transform: translateX(100%);
+        transition: transform 500ms ease-in-out;
+        
+    }
+
+    .primary-navigation[data-visible="true"] {
+        transform: translateX(0);
+        padding-right: 0;
+        
+    }
+
+    .mobile-nav-toggle {
+        display: block;
+        position: absolute;
+        z-index: 2000;
+        right: 1rem;
+        top: 2rem;
+        background: transparent;
+        border: 0;
+        background-image: url(./assets/shared/icon-hamburger.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 1.5rem;
+        aspect-ratio: 1;
+    }
+
+    .mobile-nav-toggle[aria-expanded="true"] {
+        background-image: url(./assets/shared/icon-close.svg);
+    }
+
+    .mobile-nav-toggle:focus-visible {
+        outline: 5px solid white;
+        outline-offset: 5px;
+    }
+
+    /* .primary-navigation.underline-indicators > .active {
+        border: 0;
+        
+    } */
+}
+
 
 .primary-navigation a {
     text-decoration: none;
@@ -336,3 +442,33 @@ select {
     background-color: hsl( var(--color-white) / 1);
     color: hsl( var(--color-dark));
 } 
+
+/* ************************ */
+/* Page specific background */
+/* ************************ */
+
+.body {
+    background-size: cover;
+    background-position: bottom center;
+}
+
+/* Home */
+
+.home {   
+    background-image: url(./assets/home/background-home-mobile.jpg);
+}
+
+@media (min-width: 35rem) {
+    .home {
+        background-image: url(./assets/home/background-home-tablet.jpg);
+        background-position: center center;
+    }
+}
+
+@media (min-width: 45rem) {
+    .home {
+        background-image: url(./assets/home/background-home-desktop.jpg);
+        background-position: bottom center;
+    }
+}
+
