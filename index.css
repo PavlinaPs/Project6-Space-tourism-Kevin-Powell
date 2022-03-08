@@ -12,7 +12,7 @@
     --fs-800: 3.5rem;
     --fs-700: 1.5rem;
     --fs-600: 1rem;
-    --fs-500: 1.75rem; 
+    --fs-500: 1rem; 
     --fs-400: 0.9375rem; 
     --fs-300: 1rem;
     --fs-200: 0.875rem;
@@ -29,6 +29,7 @@
     --fs-800: 5rem;
     --fs-700: 2.5rem;
     --fs-600: 1.5rem;
+    --fs-500: 1.25rem;
     --fs-400: 1rem;
     }
 }
@@ -39,7 +40,7 @@
     --fs-800: 6.25rem;
     --fs-700: 3.5rem;
     --fs-600: 2rem;
-    /* --fs-500: 1.75rem;    divide by 16 */
+    --fs-500: 1.75rem;    /* divide by 16 */
     --fs-400: 1.125rem;   /*base size = body text size*/
     }
 }
@@ -91,13 +92,13 @@ body {
     grid-template-rows: min-content 1fr;   /*spacing above and under, stretch all the way down*/
 
     overflow-x: hidden;   /*animation otherwise overflows*/
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
 
 /* image set-up */
 img,
 picture {
-    min-width: 100%;
+    /* min-width: 100%; */
     display: block;
 }
 
@@ -150,40 +151,6 @@ select {
     margin: auto; /* margin-inline: auto; to hold the content in the middle of the page, left, right auto */
     max-width: 80rem;
 }
-
-.grid-container {   /*to hold content in the middle while responsive*/
-    display: grid;
-    text-align: center;
-    place-items: center;   /*place-content doesn't make a splace between divs, place-items works better*/
-    padding-inline: 1rem;
-}
-
-.grid-container * {
-    max-width: 50ch;    /*zero characters*/
-}
-
-@media (min-width: 45em) {
-    .grid-container {   /*to hold content in the middle while responsive*/
-        text-align: left;
-        column-gap: var(--container-gap, 2rem);
-        grid-template-columns: minmax(2rem, 1fr) minmax(0, 40rem) minmax(0, 40rem) minmax(2rem, 1fr);
-    }
-
-    .grid-container > *:first-child {
-        grid-column: 2;
-    }
-    
-    .grid-container > *:last-child {
-        grid-column: 3;
-    }
-
-    .grid-container--home {
-        padding-bottom: max(6rem, 20vh);    /*chooses bigger, 20vh is for really big screens - will not be glued to the bottom of the screen*/
-        align-items: end;
-    }
-}
-
-
 
 /* for assistive technology - screen readers only, doesn't display */
 .sr-only {
@@ -345,6 +312,26 @@ select {
     border-color: hsl(var(--color-white) / 1);  /*doesn't change on hover, .active overwrites it*/
 }
 
+.side-indicators > * {       /*every direct child of*/
+    cursor: pointer;
+    padding: var(--underline-gap, .1rem) 0;
+    border: 0;
+    border-right: 0.2rem solid hsl(var(--color-white) / 0);
+    background-color: transparent;
+
+}
+
+.side-indicators > *:hover,
+.side-indicators > *:focus {
+    border-color: hsl(var(--color-white) / 0.5);
+}
+
+.side-indicators > .active,
+.side-indicators > [aria-selected="true"] {  /*tabs don't reload page, this is for assistive technologies to let them know */
+    color: hsl( var(--clr-white) / 1);
+    border-color: hsl(var(--color-white) / 1);  /*doesn't change on hover, .active overwrites it*/
+}
+
 @media (max-width: 35rem) {
     .primary-navigation {
         --underline-gap: 0.5rem;
@@ -380,10 +367,10 @@ select {
         aspect-ratio: 1;
     }
 
-    .underline-indicators > * {       /*every direct child of*/
+    /* .underline-indicators > * {      
         border: 0;
         border-right: 0.2rem solid hsl(var(--color-white) / 0);
-    }
+    } */
 
     .mobile-nav-toggle[aria-expanded="true"] {
         background-image: url(./assets/shared/icon-close.svg);
@@ -418,7 +405,6 @@ select {
         width: 100%;
         background: hsl(var(--color-white) / 0.25);
         order: 1;
-        
     }
 
     nav {
@@ -428,9 +414,6 @@ select {
     .primary-navigation {
         margin-block: 2rem;
     }
-
-   
-
 }
 
 .tab-list{
@@ -497,7 +480,8 @@ select {
 
 .home {   
     background-image: url(./assets/home/background-home-mobile.jpg);
-}
+    /* background-repeat: no-repeat; */
+    }
 
 @media (min-width: 35rem) {
     .home {
@@ -513,3 +497,115 @@ select {
     }
 }
 
+
+/* ****** */
+/* Layout */
+/* ****** */
+
+.grid-container {   /*to hold content in the middle while responsive*/
+    text-align: center;
+    display: grid;
+    text-align: center;
+    place-items: center;   /*place-content doesn't make a splace between divs, place-items works better*/
+    padding-inline: 1rem;
+    padding-bottom: 4rem;
+}
+
+.grid-container p:not([class]) {    /*paragraph that doesn't have a class*/
+    max-width: 50ch;    /*zero characters*/
+    /* outline: 2px solid greenyellow; */
+}
+
+.numbered-title {
+    grid-area: title;
+}
+
+/* destination layout*/
+
+.grid-container--destination {
+    --flow-space: 2rem;
+    grid-template-areas:
+        'title'
+        'image'
+        'tabs'
+        'content';
+}
+
+.grid-container--destination > img {
+    grid-area: image;
+    max-width: 60%;
+}
+
+.grid-container--destination > .tab-list {
+    grid-area: tabs;
+}
+
+.grid-container--destination > .destination-info {
+    grid-area: content;
+}
+
+.destination-meta {
+    flex-direction: column;
+    border-top: 1px solid hsl(var(--color-white) / 0.1);
+    padding-top: 2.5rem;
+    margin-top: 2.5rem;
+}
+
+.destination-meta p {
+    font-size: 1.75rem;
+}
+
+@media (min-width: 35em) {
+    .numbered-title {
+        justify-self: start;
+        margin-top: 2rem;
+    }
+
+    .destination-meta {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+}
+
+
+
+@media (min-width: 45em) {
+    .grid-container {   /*to hold content in the middle while responsive*/
+        text-align: left;
+        column-gap: var(--container-gap, 2rem);
+        grid-template-columns: minmax(2rem, 1fr) minmax(0, 40rem) minmax(0, 40rem) minmax(2rem, 1fr);
+    }
+
+    .grid-container--home > *:first-child {
+        grid-column: 2;
+    }
+    
+    .grid-container--home > *:last-child {
+        grid-column: 3;
+    }
+
+    .grid-container--home {
+        padding-bottom: max(6rem, 20vh);    /*chooses bigger, 20vh is for really big screens - will not be glued to the bottom of the screen*/
+        align-items: end;
+    }
+
+    .grid-container--destination {
+        justify-items: start;
+        align-content: start;
+        grid-template-areas:
+            '. title title .'
+            '. image tabs .'
+            '. image content .'
+    }
+
+    .grid-container--destination > img {
+        max-width: 80%;
+    }
+
+    .destination-meta {
+        justify-content: start;
+        --gap: min(6vw, 6rem); /*whatever is smaller*/
+    }
+
+  
+}
