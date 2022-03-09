@@ -99,6 +99,9 @@ body {
 img,
 picture {
     max-width: 100%;
+}
+
+img:not([hidden]), picture:not([hidden]) {
     display: block;
 }
 
@@ -220,6 +223,18 @@ select {
     line-height: 1.1;
 }
 
+.numbered-title {
+    font-family: var(--ff-sans-cond);
+    font-size: var(--fs-500);
+    text-transform: uppercase;
+    letter-spacing: 4.72px; 
+}
+
+.numbered-title span {
+    margin-right: .5em;
+    font-weight: 700;
+    color: hsl( var(--clr-white) / .25);
+}
 
 /* *************** */
 /* Components */
@@ -258,7 +273,7 @@ select {
 
 .logo {
     margin: 1.5rem clamp(1.5rem, 5vw, 3.5rem);
-    
+    min-width: 48px;
 }
 
 .primary-header {
@@ -487,14 +502,14 @@ select {
     /* background-repeat: no-repeat; */
     }
 
-@media (min-width: 35rem) {
+@media (min-width: 35em) {
     .home {
         background-image: url(./assets/home/background-home-tablet.jpg);
         background-position: center center;
     }
 }
 
-@media (min-width: 45rem) {
+@media (min-width: 45em) {
     .home {
         background-image: url(./assets/home/background-home-desktop.jpg);
         background-position: bottom center;
@@ -508,14 +523,14 @@ select {
     /* background-repeat: no-repeat; */
     }
 
-@media (min-width: 35rem) {
+@media (min-width: 35em) {
     .destination {
         background-image: url(./assets/destination/background-destination-tablet.jpg);
         background-position: center center;
     }
 }
 
-@media (min-width: 45rem) {
+@media (min-width: 45em) {
     .destination {
         background-image: url(./assets/destination/background-destination-desktop.jpg);
         background-position: bottom center;
@@ -529,14 +544,14 @@ select {
     /* background-repeat: no-repeat; */
     }
 
-@media (min-width: 35rem) {
+@media (min-width: 35em) {
     .crew {
         background-image: url(./assets/crew/background-crew-tablet.jpg);
         background-position: center center;
     }
 }
 
-@media (min-width: 45rem) {
+@media (min-width: 45em) {
     .crew {
         background-image: url(./assets/crew/background-crew-desktop.jpg);
         background-position: bottom center;
@@ -549,7 +564,6 @@ select {
 /* ****** */
 
 .grid-container {   /*to hold content in the middle while responsive*/
-    text-align: center;
     display: grid;
     text-align: center;
     place-items: center;   /*place-content doesn't make a splace between divs, place-items works better*/
@@ -714,3 +728,7 @@ select {
         justify-self: start;
     }
 }
+
+/* [role="tab"]:focus {
+    color: greenyellow;
+} */
