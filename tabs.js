@@ -7,54 +7,66 @@ tabs.forEach((tab) => {
     tab.addEventListener('click', changeTabPanel);
 });
 
-
 let tabFocus = 0;
 function changeTabFocus(e) {
     const keyDownLeft = 37;
+    const keyDownUp = 38;
     const keyDownRight = 39;
+    const keyDownDown = 40;
+    
 
-    // change the tabindex of the current tab to -1
-    if (e.keyCode === keyDownLeft || e.keyCode === keyDownRight) {
-        // console.log(tabs[tabFocus]);
+    if (e.keyCode === keyDownLeft || e.keyCode === keyDownRight || e.keyCode === keyDownUp || e.keyCode === keyDownDown ) {
         tabs[tabFocus].setAttribute("tabindex", -1);
-    }
-
-// if the right arrow key is pushed, move to the next tab on the right
-    if (e.keyCode === keyDownRight) {
-        tabFocus++;
-        console.log(tabFocus);
-        if(tabFocus >= tabs.length) {
-            tabFocus = 0;
+        if (e.keyCode === keyDownRight || e.keyCode === keyDownDown) {
+            tabFocus++;
+            if(tabFocus >= tabs.length) {
+                tabFocus = 0;
+            }
+        } else if (e.keyCode === keyDownLeft || e.keyCode === keyDownUp) {
+            tabFocus--;
+            console.log(tabFocus);
+            if(tabFocus < 0) {
+                tabFocus = tabs.length - 1;
+            }
         }
-    }
 
-// if the left arrow key is pushed, move to the next tab on the left
-    if (e.keyCode === keyDownLeft) {
-        tabFocus--;
-        console.log(tabFocus);
-        if(tabFocus < 0) {
-            tabFocus = tabs.length - 1;
-        }
+        tabs[tabFocus].setAttribute("tabindex", 0);
+        tabs[tabFocus].focus();
     }
-
-    tabs[tabFocus].setAttribute("tabindex", 0);
-    tabs[tabFocus].focus();
 }
 
 function changeTabPanel(e) {
     const targetTab = e.target;
-    console.log(e.target)
     const targetPanel = targetTab.getAttribute("aria-controls");
     
     const tabContainer = targetTab.parentNode;
     const mainContainer = tabContainer.parentNode;
 
-    mainContainer
-        .querySelectorAll('[role="tabpanel"]')
-        .forEach(panel => panel.setAttribute('hidden', true));
+    const targetImage = targetTab.getAttribute("data-image");
 
-    mainContainer.querySelector([`#${targetPanel}`]).removeAttribute('hidden');
+    tabContainer
+        .querySelector('[aria-selected="true"]')
+        .setAttribute("aria-selected", false);
+
+    targetTab.setAttribute("aria-selected", true);
+
+    hideContent(mainContainer, '[role="tabpanel"]');
+    showContent(mainContainer, [`#${targetPanel}`]); 
     
+    hideContent(mainContainer, 'picture')
+    showContent(mainContainer, [`#${targetImage}`])
+}
+
+function hideContent(parent, content) {
+    parent
+        .querySelectorAll(content)
+        .forEach(item => item.setAttribute('hidden', true));
+}
+
+function showContent(parent, target) {
+    parent
+        .querySelector(target)
+        .removeAttribute('hidden');
 }
 
 
